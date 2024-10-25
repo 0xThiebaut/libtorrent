@@ -2068,6 +2068,16 @@ namespace aux {
 			i2p_inbound_length,
 			i2p_outbound_length,
 
+			// ``announce_port`` is the port passed along to trackers as the
+			// ``&port=`` parameter. If left as the default, the listening port
+			// is used.
+			//
+			// .. note::
+			//    This setting is only meant for very special cases
+			//    where a seed's listening port differs from the exposed
+			//    port (e.g., through external NAT-PMP).
+			announce_port,
+
 			max_int_setting_internal
 		};
 

@@ -278,8 +278,15 @@ constexpr tracker_request_flags_t tracker_request::i2p;
 
 #ifndef TORRENT_DISABLE_LOGGING
 		std::shared_ptr<request_callback> cb = c.lock();
-		if (cb) cb->debug_log("*** QUEUE_TRACKER_REQUEST [ listen_port: %d ]"
-			, req.listen_port);
+		if (cb) {
+			if (const auto announce_port = std::uint16_t(sett.get_int(settings_pack::announce_port))) {
+				cb->debug_log("*** QUEUE_TRACKER_REQUEST [ listen_port: %d, announce_port: %d ]"
+				, req.listen_port, announce_port);
+			} else {
+				cb->debug_log("*** QUEUE_TRACKER_REQUEST [ listen_port: %d ]"
+				, req.listen_port);
+			}
+		}
 #endif
 
 		std::string const protocol = req.url.substr(0, req.url.find(':'));

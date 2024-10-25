@@ -729,7 +729,9 @@ namespace libtorrent {
 		aux::write_uint32(announce_ip.to_uint(), out);
 		aux::write_int32(req.key, out); // key
 		aux::write_int32(req.num_want, out); // num_want
-		aux::write_uint16(req.listen_port, out); // port
+
+		const auto announce_port = std::uint16_t(settings.get_int(settings_pack::announce_port));
+		aux::write_uint16(announce_port ? announce_port : req.listen_port, out); // port
 
 		std::string request_string;
 		error_code ec;

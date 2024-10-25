@@ -126,6 +126,7 @@ namespace libtorrent {
 		if (!(tracker_req().kind & tracker_request::scrape_request))
 		{
 			static aux::array<const char*, 4> const event_string{{{"completed", "started", "stopped", "paused"}}};
+			const auto announce_port = std::uint16_t(settings.get_int(settings_pack::announce_port));
 
 			char str[1024];
 			std::snprintf(str, sizeof(str)
@@ -143,7 +144,7 @@ namespace libtorrent {
 				, escape_string({tracker_req().pid.data(), 20}).c_str()
 				// the i2p tracker seems to verify that the port is not 0,
 				// even though it ignores it otherwise
-				, tracker_req().listen_port
+				, announce_port ? announce_port : tracker_req().listen_port
 				, tracker_req().uploaded
 				, tracker_req().downloaded
 				, tracker_req().left
